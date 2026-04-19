@@ -17,12 +17,6 @@
                         bindings = <&lt 1 SPACE>, <&tog 1>;
                 };
 
-                td_ret_rai: td_ret_rai {
-                        compatible = "zmk,behavior-tap-dance";
-                        #binding-cells = <0>;
-                        tapping-term-ms = <250>;
-                        bindings = <&lt 2 RET>, <&tog 2>;
-                };
         };
 
         keymap {
@@ -33,7 +27,7 @@
 &kp Q      &kp W      &kp E      &kp R      &kp T             &kp Y       &kp U      &kp I      &kp O      &kp P
 &kp A      &kp S      &kp D      &kp F      &kp G             &kp H       &kp J      &kp K      &kp L      &kp SEMI
 &kp Z      &kp X      &kp C      &kp V      &kp B             &kp N       &kp M      &kp COMMA  &kp DOT    &kp FSLH
-                      &kp LSHFT  &kp LCTRL  &td_space_low     &td_ret_rai &kp RCTRL  &kp RGUI
+                      &kp LSHFT  &kp LCTRL  &&lt 1 SPACE      &lt 2 RET   &kp RCTRL  &kp RGUI
                         >;
                 };
 
