@@ -55,10 +55,10 @@
             // Row 3: Caps ' = - 0 | [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
             // Thumbs: [TRNS] RGUI [TRNS] || [TRNS] [TRNS] [TRNS]
             bindings = <
-                &kp GRAVE    &kp N1    &kp N2    &kp N3    &kp N4  &trans    &trans    &trans    &trans    &trans
-                &kp N5       &kp N6    &kp N7    &kp N8    &kp N9  &trans    &kp LCTRL &kp TAB   &kp LSHFT &kp ESC
-                &kp CAPSLOCK &kp APOS  &kp EQUAL &kp MINUS &kp N0  &trans    &trans    &trans    &trans    &trans
-                              &trans   &kp RGUI  &trans    &trans  &trans    &trans
+                &trans &kp GRAVE    &kp N1    &kp N2    &kp N3    &kp N4     &trans &trans    &trans    &trans    &trans  &trans
+                &trans &kp N5       &kp N6    &kp N7    &kp N8    &kp N9     &trans &kp LCTRL &kp TAB   &kp LSHFT &kp ESC &trans
+                &trans &kp CAPSLOCK &kp APOS  &kp EQUAL &kp MINUS &kp N0     &trans &trans    &trans    &trans    &trans  &trans
+                              &kp LALT   &kp RGUI  &trans    &trans  &trans    &trans
             >;
         };
     };
