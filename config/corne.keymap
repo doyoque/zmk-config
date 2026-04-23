@@ -26,8 +26,8 @@
             // Thumbs: LShift | Tab(Ctrl) | Space(LOWER) || Enter(RAISE) | Del(Ctrl) | RGUI
             bindings = <
                 &trans &kp Q       &kp W    &kp E    &kp R    &kp T        &kp Y    &kp U    &kp I     &kp O   &kp P          &trans
-                &trans &mt LCTRL A &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &mt RCTRL SEMI &trans
-                &trans &mt LSHFT Z &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &mt RSHFT FSLH &trans
+                &trans &kp A &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI &trans
+                &trans &kp Z &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &kp FSLH &trans
                                     &kp LSHIFT &mt LCTRL TAB &lt 1 SPACE  &lt 2 RET   &mt RCTRL BSPC    &kp RGUI
             >;
         };
