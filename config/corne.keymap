@@ -15,18 +15,38 @@
 
 / {
     behaviors {
+        // Custom hold-tap for layer 1
+        ht_lt1: ht_lt1 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <100>;
+            flavor = "tap-preferred";
+            bindings = <&mo>, <&kp>;
+        };
+
+        // Custom hold-tap for layer 2
+        ht_lt2: ht_lt2 {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            tapping-term-ms = <100>;
+            flavor = "tap-preferred";
+            bindings = <&mo>, <&kp>;
+        };
+
+        // Tap-dance: single tap = hold-tap(layer1, SPACE), double tap = tog 1
         td_lt1: td_lt1 {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <50>;
-            bindings = <&lt 1 SPACE>, <&tog 1>;
+            tapping-term-ms = <200>;
+            bindings = <&ht_lt1 1 SPACE>, <&tog 1>;
         };
 
+        // Tap-dance: single tap = hold-tap(layer2, RET), double tap = tog 2
         td_lt2: td_lt2 {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <50>;
-            bindings = <&lt 2 RET>, <&tog 2>;
+            tapping-term-ms = <200>;
+            bindings = <&ht_lt2 2 RET>, <&tog 2>;
         };
     };
 
