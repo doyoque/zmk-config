@@ -18,14 +18,14 @@
         td_lt1: td_lt1 {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <200>;
+            tapping-term-ms = <50>;
             bindings = <&lt 1 SPACE>, <&tog 1>;
         };
 
         td_lt2: td_lt2 {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <200>;
+            tapping-term-ms = <50>;
             bindings = <&lt 2 RET>, <&tog 2>;
         };
     };
