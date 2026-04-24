@@ -1,2 +1,6 @@
 
 .zmk/
+build/
+.codex
+img/
+download_firmware_artifacts.sh
