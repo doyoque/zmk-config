@@ -34,6 +34,7 @@
         compatible = "zmk,keymap";
 
         default_layer {
+            display-name = "BAS";
             // ---------------------------------------------------------------------------------
             // Base alpha layer (home-row mods + layer-tap thumbs)
             // LHS: [TRNS] Q W E R T        RHS: Y U I O P [TRNS]
@@ -49,6 +50,7 @@
         };
 
         lower_layer {
+            display-name = "LOW";
             // ---------------------------------------------------------------------------------
             // Lower layer
             // LHS: [TRNS] BT_CLR BT0 BT1 BT2 BT3  RHS: | [ ] [TRNS] 0 [TRNS]
@@ -64,6 +66,7 @@
         };
 
         raise_layer {
+            display-name = "RAI";
             // ---------------------------------------------------------------------------------
             // Raise layer
             // Row 1: ` 1 2 3 4 | [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
