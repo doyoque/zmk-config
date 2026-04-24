@@ -30,6 +30,14 @@ require_cmd() {
   fi
 }
 
+trim() {
+  local value="$1"
+  # Remove leading and trailing whitespace.
+  value="${value#"${value%%[![:space:]]*}"}"
+  value="${value%"${value##*[![:space:]]}"}"
+  printf '%s' "$value"
+}
+
 resolve_repo() {
   gh repo view --json nameWithOwner --jq '.nameWithOwner'
 }
@@ -103,6 +111,8 @@ OUT_DIR="$BUILD_DIR/$OUT_SUBDIR"
 mkdir -p "$OUT_DIR"
 
 ARTIFACT_NAMES=()
+RUN_HEAD_SHA=""
+RUN_HEAD_MESSAGE=""
 
 load_non_expired_artifacts() {
   local run_id="$1"
@@ -111,6 +121,38 @@ load_non_expired_artifacts() {
     --paginate \
     --jq '.artifacts[] | select(.expired == false) | .name')
   [[ ${#ARTIFACT_NAMES[@]} -gt 0 ]]
+}
+
+load_run_commit_info() {
+  local run_id="$1"
+  local commit_info
+  commit_info="$(gh run view "$run_id" \
+    --repo "$REPO" \
+    --json headSha,displayTitle \
+    --jq '[.headSha, .displayTitle] | @tsv')"
+
+  RUN_HEAD_SHA="$(printf '%s' "$commit_info" | cut -f1)"
+  RUN_HEAD_MESSAGE="$(printf '%s' "$commit_info" | cut -f2-)"
+}
+
+prompt_with_default() {
+  local prompt_text="$1"
+  local default_value="$2"
+  local user_value
+  local trimmed_value
+
+  if [[ -n "$default_value" ]]; then
+    read -r -p "$prompt_text [$default_value]: " user_value
+  else
+    read -r -p "$prompt_text: " user_value
+  fi
+
+  trimmed_value="$(trim "$user_value")"
+  if [[ -z "$trimmed_value" ]]; then
+    printf '%s' "$default_value"
+  else
+    printf '%s' "$trimmed_value"
+  fi
 }
 
 find_latest_run_with_artifacts() {
@@ -173,6 +215,36 @@ else
 fi
 
 echo "Using run ID: $RUN_ID"
+load_run_commit_info "$RUN_ID"
+
+BUILD_COMMIT_HASH=""
+BUILD_COMMIT_MESSAGE=""
+
+if [[ -t 0 ]]; then
+  BUILD_COMMIT_HASH="$(prompt_with_default "Enter build commit hash" "$RUN_HEAD_SHA")"
+  BUILD_COMMIT_MESSAGE="$(prompt_with_default "Enter build commit message" "$RUN_HEAD_MESSAGE")"
+else
+  BUILD_COMMIT_HASH="$RUN_HEAD_SHA"
+  BUILD_COMMIT_MESSAGE="$RUN_HEAD_MESSAGE"
+fi
+
+BUILD_COMMIT_HASH="$(trim "$BUILD_COMMIT_HASH")"
+BUILD_COMMIT_MESSAGE="$(trim "$BUILD_COMMIT_MESSAGE")"
+
+if [[ -z "$BUILD_COMMIT_HASH" ]]; then
+  echo "Error: commit hash is required." >&2
+  exit 1
+fi
+
+if [[ ! "$BUILD_COMMIT_HASH" =~ ^[0-9a-fA-F]{7,40}$ ]]; then
+  echo "Error: commit hash must be 7-40 hexadecimal characters." >&2
+  exit 1
+fi
+
+if [[ -z "$BUILD_COMMIT_MESSAGE" ]]; then
+  echo "Error: commit message is required." >&2
+  exit 1
+fi
 
 echo "Cleaning old firmware archives in: $OUT_DIR"
 deleted_count="$(find "$OUT_DIR" -type f \( -name '*.uf2' -o -name '*.zip' \) -print -delete | wc -l | tr -d '[:space:]')"
@@ -201,4 +273,15 @@ for name in "${ARTIFACT_NAMES[@]}"; do
   fi
 done
 
+metadata_file="$OUT_DIR/build-info.txt"
+cat >"$metadata_file" <<EOF
+repo: $REPO
+workflow: $WORKFLOW
+run_id: $RUN_ID
+build_commit_hash: $BUILD_COMMIT_HASH
+build_commit_message: $BUILD_COMMIT_MESSAGE
+downloaded_at_utc: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+EOF
+
+echo "Saved build metadata to: $metadata_file"
 echo "Done. Artifacts downloaded under: $OUT_DIR"

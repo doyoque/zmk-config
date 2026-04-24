@@ -38,7 +38,7 @@
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&ht_lt1 1 SPACE>, <&tog 1>;
+            bindings = <&lt 1 SPACE>, <&tog 1>;
         };
 
         // Tap-dance: single tap = hold-tap(layer2, RET), double tap = tog 2
@@ -46,7 +46,7 @@
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&ht_lt2 2 RET>, <&tog 2>;
+            bindings = <&lt 2 RET>, <&tog 2>;
         };
     };
 
@@ -65,7 +65,7 @@
                 &trans &kp Q       &kp W    &kp E    &kp R    &kp T        &kp Y    &kp U    &kp I     &kp O   &kp P          &trans
                 &trans &kp A &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI &trans
                 &trans &kp Z &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &kp FSLH &trans
-                                    &kp LSHIFT &mt LCTRL TAB &td_lt1      &td_lt2    &mt RCTRL BSPC    &kp RGUI
+                                    &kp LSHIFT &mt LALT TAB &td_lt1      &td_lt2    &mt RCTRL BSPC    &kp RGUI
             >;
         };
 
