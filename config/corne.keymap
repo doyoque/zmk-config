@@ -14,42 +14,6 @@
 };
 
 / {
-    behaviors {
-        // Custom hold-tap for layer 1
-        ht_lt1: ht_lt1 {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            tapping-term-ms = <100>;
-            flavor = "tap-preferred";
-            bindings = <&mo>, <&kp>;
-        };
-
-        // Custom hold-tap for layer 2
-        ht_lt2: ht_lt2 {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            tapping-term-ms = <100>;
-            flavor = "tap-preferred";
-            bindings = <&mo>, <&kp>;
-        };
-
-        // Tap-dance: single tap = hold-tap(layer1, SPACE), double tap = tog 1
-        td_lt1: td_lt1 {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&lt 1 SPACE>, <&tog 1>;
-        };
-
-        // Tap-dance: single tap = hold-tap(layer2, RET), double tap = tog 2
-        td_lt2: td_lt2 {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&lt 2 RET>, <&tog 2>;
-        };
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -65,7 +29,7 @@
                 &trans &kp Q       &kp W    &kp E    &kp R    &kp T        &kp Y    &kp U    &kp I     &kp O   &kp P          &trans
                 &trans &kp A &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI &trans
                 &trans &kp Z &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &kp FSLH &trans
-                                    &kp LSHIFT &mt LALT TAB &td_lt1      &td_lt2    &mt RCTRL BSPC    &kp RGUI
+                                    &kp LSHIFT &mt LALT TAB &lt 1 SPACE  &lt 2 RET   &mt RCTRL BSPC    &kp RGUI
             >;
         };
 
