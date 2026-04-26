@@ -9,11 +9,31 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/rgb.h>
 
+#define BAS 0
+#define LOW 1
+#define RAI 2
+
 &led_strip {
     chain-length = <27>;
 };
 
 / {
+    behaviors {
+        td_ls_low: tap_dance_lshift_low {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp LSHIFT>, <&tog LOW>;
+        };
+
+        td_gui_rai: tap_dance_gui_rai {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp RGUI>, <&tog RAI>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -29,7 +49,7 @@
                 &trans &kp Q       &kp W    &kp E    &kp R    &kp T        &kp Y    &kp U    &kp I     &kp O   &kp P          &trans
                 &trans &kp A &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI &trans
                 &trans &kp Z &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &kp FSLH &trans
-                                    &kp LSHIFT &mt LALT TAB &lt 1 SPACE  &lt 2 RET   &mt RCTRL BSPC    &kp RGUI
+                                    &td_ls_low &mt LALT TAB &lt LOW SPACE  &lt RAI RET   &mt RCTRL BSPC    &td_gui_rai
             >;
         };
 
