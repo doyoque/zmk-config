@@ -87,9 +87,15 @@ require_cmd gh
 require_cmd unzip
 
 echo "Checking GitHub CLI auth..."
-if ! gh auth status >/dev/null 2>&1; then
-  echo "Error: gh is not authenticated. Run: gh auth login" >&2
-  exit 1
+if gh auth status >/dev/null 2>&1; then
+  echo "GitHub CLI auth: OK"
+else
+  if [[ -n "${GH_TOKEN:-}" || -n "${GITHUB_TOKEN:-}" ]]; then
+    echo "GitHub CLI auth status unavailable, but token environment variable detected. Continuing..."
+  else
+    echo "GitHub CLI is not authenticated. Continuing anyway (public repos may still work)."
+    echo "If later requests fail with auth errors, run: gh auth login" >&2
+  fi
 fi
 
 if [[ -z "$REPO" ]]; then
