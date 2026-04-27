@@ -19,18 +19,18 @@
 
 / {
     behaviors {
-        td_ls_low: tap_dance_lshift_low {
+        td_gui_low: tap_dance_lgui_low {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&kp LSHIFT>, <&tog LOW>;
+            bindings = <&kp LGUI>, <&tog LOW>;
         };
 
-        td_gui_rai: tap_dance_gui_rai {
+        td_shft_rai: tap_dance_shft_rai {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <200>;
-            bindings = <&kp RGUI>, <&tog RAI>;
+            bindings = <&kp RSHIFT>, <&tog RAI>;
         };
     };
 
@@ -43,27 +43,27 @@
             // Row 1: [TRNS] Q W E R T | Y U I O P [TRNS]
             // Row 2: [TRNS] A S D F G | H J K L ; [TRNS]
             // Row 3: [TRNS] Z X C V B | N M , . / [TRNS]
-            // Thumbs: LShift Alt-Tab Lower-Space | Raise-Enter Ctrl-Bsp RGUI
+            // Thumbs: LGUI/Lower Alt-Tab Lower-Enter | Raise-Space Ctrl-Bsp RShift/Raise
             bindings = <
                 &trans &kp Q       &kp W    &kp E    &kp R    &kp T        &kp Y    &kp U    &kp I     &kp O   &kp P          &trans
                 &trans &kp A &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI &trans
                 &trans &kp Z &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &kp FSLH &trans
-                                    &td_ls_low &mt LALT TAB &lt LOW SPACE  &lt RAI RET   &mt RCTRL BSPC    &td_gui_rai
+                                    &td_gui_low &mt LALT TAB &lt LOW RET  &lt RAI SPACE   &mt RCTRL BSPC    &td_shft_rai
             >;
         };
 
         lower_layer {
             display-name = "LOW";
             // Lower layer (Bluetooth, RGB, nav, symbols)
-            // Row 1: [TRNS] BT_CLR BT0 BT1 BT2 BT3 | | [ ] [TRNS] 0 [TRNS]
+            // Row 1: [TRNS] BT_CLR BT0 BT1 BT2 BT3 | \ [ ] [TRNS] 0 [TRNS]
             // Row 2: [TRNS] RGB_TOG RGB_HUI RGB_SAI RGB_BRI [TRNS] | Left Down Up Right [TRNS] [TRNS]
             // Row 3: [TRNS] RGB_EFF RGB_HUD RGB_SAD RGB_BRD [TRNS] | [TRNS] [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
-            // Thumbs: [TRNS] LShift LCtrl | RCtrl RShift [TRNS]
+            // Thumbs: [TRNS] LShift LCtrl | RCtrl RShift RAlt
             bindings = <
-                &trans &bt BT_CLR      &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3      &kp PIPE2 &kp LEFT_BRACE &kp RIGHT_BRACE &trans    &kp N0  &trans
+                &trans &bt BT_CLR      &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3      &kp BSLH &kp LBKT &kp RBKT &trans    &kp N0  &trans
                 &trans &rgb_ug RGB_TOG &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &trans         &kp LEFT &kp DOWN       &kp UP          &kp RIGHT &trans  &trans
                 &trans &rgb_ug RGB_EFF &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &trans         &trans   &trans         &trans          &trans    &trans  &trans
-                                     &trans          &kp LSHIFT           &kp LCTRL         &kp RCTRL           &kp RSHIFT &trans
+                                     &trans          &kp LSHIFT           &kp LCTRL         &kp RCTRL           &kp RSHIFT &kp RALT
             >;
         };
 
