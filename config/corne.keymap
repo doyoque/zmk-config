@@ -58,12 +58,12 @@
             // Row 1: [TRNS] BT_CLR BT0 BT1 BT2 BT3 | | [ ] [TRNS] 0 [TRNS]
             // Row 2: [TRNS] RGB_TOG RGB_HUI RGB_SAI RGB_BRI [TRNS] | Left Down Up Right [TRNS] [TRNS]
             // Row 3: [TRNS] RGB_EFF RGB_HUD RGB_SAD RGB_BRD [TRNS] | [TRNS] [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
-            // Thumbs: LCtrl LShift [TRNS] | [TRNS] RShift RCtrl
+            // Thumbs: [TRNS] LShift LCtrl | RCtrl RShift [TRNS]
             bindings = <
                 &trans &bt BT_CLR      &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3      &kp PIPE2 &kp LEFT_BRACE &kp RIGHT_BRACE &trans    &kp N0  &trans
                 &trans &rgb_ug RGB_TOG &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &trans         &kp LEFT &kp DOWN       &kp UP          &kp RIGHT &trans  &trans
                 &trans &rgb_ug RGB_EFF &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &trans         &trans   &trans         &trans          &trans    &trans  &trans
-                                     &kp LCTRL          &kp LSHIFT           &trans         &trans           &kp RSHIFT &kp RCTRL
+                                     &trans          &kp LSHIFT           &kp LCTRL         &kp RCTRL           &kp RSHIFT &trans
             >;
         };
 
