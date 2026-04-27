@@ -39,12 +39,11 @@
 
         default_layer {
             display-name = "BAS";
-            // ---------------------------------------------------------------------------------
-            // Base alpha layer (home-row mods + layer-tap thumbs)
-            // LHS: [TRNS] Q W E R T        RHS: Y U I O P [TRNS]
-            // LHS: [TRNS] A(Ctrl) S D F G  RHS: H J K L ;(Ctrl) [TRNS]
-            // LHS: [TRNS] Z(Shift) X C V B RHS: N M , . /(Shift) [TRNS]
-            // Thumbs: LShift | Tab(Ctrl) | Space(LOWER) || Enter(RAISE) | Del(Ctrl) | RGUI
+            // Base layer (alpha + mod taps + layer taps)
+            // Row 1: [TRNS] Q W E R T | Y U I O P [TRNS]
+            // Row 2: [TRNS] A S D F G | H J K L ; [TRNS]
+            // Row 3: [TRNS] Z X C V B | N M , . / [TRNS]
+            // Thumbs: LShift Alt-Tab Lower-Space | Raise-Enter Ctrl-Bsp RGUI
             bindings = <
                 &trans &kp Q       &kp W    &kp E    &kp R    &kp T        &kp Y    &kp U    &kp I     &kp O   &kp P          &trans
                 &trans &kp A &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI &trans
@@ -55,28 +54,26 @@
 
         lower_layer {
             display-name = "LOW";
-            // ---------------------------------------------------------------------------------
-            // Lower layer
-            // LHS: [TRNS] BT_CLR BT0 BT1 BT2 BT3  RHS: | [ ] [TRNS] 0 [TRNS]
-            // LHS: [TRNS] RGB_TOG RGB_HUI RGB_SAI RGB_BRI [TRNS]  RHS: Left Down Up Right [TRNS] [TRNS]
-            // LHS: [TRNS] RGB_EFF RGB_HUD RGB_SAD RGB_BRD [TRNS]  RHS: [TRNS] [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
-            // Thumbs: [TRNS] [TRNS] [TRNS] || [TRNS] LShift [TRNS]
+            // Lower layer (Bluetooth, RGB, nav, symbols)
+            // Row 1: [TRNS] BT_CLR BT0 BT1 BT2 BT3 | | [ ] [TRNS] 0 [TRNS]
+            // Row 2: [TRNS] RGB_TOG RGB_HUI RGB_SAI RGB_BRI [TRNS] | Left Down Up Right [TRNS] [TRNS]
+            // Row 3: [TRNS] RGB_EFF RGB_HUD RGB_SAD RGB_BRD [TRNS] | [TRNS] [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
+            // Thumbs: LCtrl LShift [TRNS] | [TRNS] RShift RCtrl
             bindings = <
-                &trans &bt BT_CLR      &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3      &kp PIPE &kp LEFT_BRACE &kp RIGHT_BRACE &trans    &kp N0  &trans
+                &trans &bt BT_CLR      &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3      &kp PIPE2 &kp LEFT_BRACE &kp RIGHT_BRACE &trans    &kp N0  &trans
                 &trans &rgb_ug RGB_TOG &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &trans         &kp LEFT &kp DOWN       &kp UP          &kp RIGHT &trans  &trans
                 &trans &rgb_ug RGB_EFF &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &trans         &trans   &trans         &trans          &trans    &trans  &trans
-                                     &trans          &trans           &trans         &trans           &kp LSHIFT &trans
+                                     &kp LCTRL          &kp LSHIFT           &trans         &trans           &kp RSHIFT &kp RCTRL
             >;
         };
 
         raise_layer {
             display-name = "RAI";
-            // ---------------------------------------------------------------------------------
-            // Raise layer
-            // Row 1: ` 1 2 3 4 | [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
-            // Row 2: 5 6 7 8 9 | [TRNS] Ctrl Tab Shift Esc
-            // Row 3: Caps ' = - 0 | [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
-            // Thumbs: [TRNS] RGUI [TRNS] || [TRNS] [TRNS] [TRNS]
+            // Raise layer (numbers + edits)
+            // Row 1: [TRNS] ` 1 2 3 4 | [TRNS] [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
+            // Row 2: [TRNS] 5 6 7 8 9 | [TRNS] Ctrl Tab Shift Esc [TRNS]
+            // Row 3: [TRNS] Caps ' = - 0 | [TRNS] [TRNS] [TRNS] [TRNS] [TRNS] [TRNS]
+            // Thumbs: LAlt RGUI [TRNS] | [TRNS] [TRNS] [TRNS]
             bindings = <
                 &trans &kp GRAVE    &kp N1    &kp N2    &kp N3    &kp N4     &trans &trans    &trans    &trans    &trans  &trans
                 &trans &kp N5       &kp N6    &kp N7    &kp N8    &kp N9     &trans &kp LCTRL &kp TAB   &kp LSHFT &kp ESC &trans
