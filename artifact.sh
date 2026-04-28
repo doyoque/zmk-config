@@ -262,6 +262,11 @@ echo "Downloading ${#ARTIFACT_NAMES[@]} artifacts to: $OUT_DIR"
 for name in "${ARTIFACT_NAMES[@]}"; do
   target_dir="$OUT_DIR/$name"
   mkdir -p "$target_dir"
+  mapfile -t stale_uf2_files < <(find "$target_dir" -type f -iname '*.uf2')
+  if [[ ${#stale_uf2_files[@]} -gt 0 ]]; then
+    echo "  Removing ${#stale_uf2_files[@]} existing extracted .uf2 file(s) in $target_dir"
+    rm -f "${stale_uf2_files[@]}"
+  fi
   echo "- $name -> $target_dir"
   gh run download "$RUN_ID" \
     --repo "$REPO" \

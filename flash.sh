@@ -15,6 +15,7 @@ Arguments:
 
 Environment:
   FIRMWARE_DIR   Optional directory to search first for UF2 files
+  ARTIFACT_DIR   Optional artifact directory (default: ./build/artifacts)
 USAGE
 }
 
@@ -48,16 +49,43 @@ require_cmd lsblk
 require_cmd udisksctl
 require_cmd find
 require_cmd cp
+require_cmd readlink
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+artifact_dir="${ARTIFACT_DIR:-$script_dir/build/artifacts}"
+
+resolve_latest_zip() {
+  local dir="$1"
+  local latest_link="$dir/latest.zip"
+
+  [[ -d "$dir" ]] || return 1
+
+  if [[ -L "$latest_link" || -f "$latest_link" ]]; then
+    readlink -f "$latest_link"
+    return 0
+  fi
+
+  find "$dir" -type f -name '*.zip' -printf '%T@ %p\n' \
+    | sort -nr \
+    | head -n1 \
+    | cut -d' ' -f2-
+}
 
 search_dirs=()
 if [[ -n "${FIRMWARE_DIR:-}" ]]; then
   search_dirs+=("$FIRMWARE_DIR")
 fi
+
+latest_zip="$(resolve_latest_zip "$artifact_dir" || true)"
+if [[ -n "$latest_zip" ]]; then
+  latest_zip_dir="$(dirname "$latest_zip")"
+  search_dirs+=("$latest_zip_dir")
+fi
+
 search_dirs+=(
   "$script_dir/../firmware-artifact"
   "$script_dir/build"
+  "$artifact_dir"
   "$HOME/Downloads"
 )
 
@@ -132,6 +160,9 @@ if [[ -z "$mountpoint" || ! -d "$mountpoint" ]]; then
 fi
 
 echo "Using firmware: $src_file"
+if [[ -n "$latest_zip" ]]; then
+  echo "Latest artifact ZIP: $latest_zip"
+fi
 echo "Target mount: $mountpoint"
 echo "Copying to $mountpoint/CURRENT.uf2 ..."
 cp -f "$src_file" "$mountpoint/CURRENT.uf2"

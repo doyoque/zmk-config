@@ -1,44 +1,47 @@
-# Flash NICENANO (left firmware)
+# Flashing Firmware to nice!nano
 
-## 1) Confirm device is connected
+This guide covers the Linux CLI flow for mounting the board and copying a new firmware file.
 
-```bash
-lsblk -o NAME,LABEL,MOUNTPOINT,FSTYPE,SIZE
-```
+## 1) Put the board in bootloader mode
 
-Look for a small VFAT device labeled `NICENANO` (example: `/dev/sdd`).
+Double-tap reset on the nice!nano. The board should re-enumerate as a USB mass-storage device labeled `NICENANO`.
 
-## 2) Mount the device
+## 2) Find and mount the device
 
-Use `udisksctl` (works without manual `mount` as root):
+Run:
 
 ```bash
-udisksctl mount -b /dev/sdd
+dev="$(lsblk -nrpo NAME,LABEL | awk '$2=="NICENANO"{print $1; exit}')"
+[ -n "$dev" ] || { echo "NICENANO device not found"; exit 1; }
+udisksctl mount -b "$dev"
 ```
 
-Expected output:
+Notes:
+- This avoids fragile escaping and fails early if the label is not found.
+- Typical mount path is `/run/media/<user>/NICENANO`.
 
-```text
-Mounted /dev/sdd at /run/media/<user>/NICENANO
-```
+## 3) Copy firmware
 
-## 3) Copy firmware and rename to CURRENT.uf2
-
-Example using the generated left firmware:
+Replace `firmware.uf2` with your actual build artifact path:
 
 ```bash
-cp -f /home/euqoyod/Projects/zmk-work/firmware-artifact/corne_left__nice_oled.uf2 \
-  /run/media/euqoyod/NICENANO/CURRENT.uf2
-sync
+cp firmware.uf2 /run/media/$USER/NICENANO/
 ```
 
-## 4) Verify behavior
+The board should reboot automatically after the copy completes.
 
-After copy, the board usually reboots immediately and the `NICENANO` mount disappears.
-That is normal and indicates flashing was accepted.
-
-You can confirm it is gone with:
+## 4) Safely unmount (recommended)
 
 ```bash
-lsblk -o NAME,LABEL,MOUNTPOINT | rg "NICENANO|sdd"
+udisksctl unmount -b "$dev"
 ```
+
+## Troubleshooting
+
+- `NICENANO device not found`
+  - Confirm bootloader mode (double-tap reset).
+  - Run `lsblk -nrpo NAME,LABEL` and verify the label is exactly `NICENANO`.
+- `Error looking up object for device`
+  - Usually means `$dev` is empty or invalid. Print it with `echo "$dev"`.
+- Permission issues when mounting/copying
+  - Ensure your desktop session can use `udisksctl`, or retry in a session with storage permissions.
