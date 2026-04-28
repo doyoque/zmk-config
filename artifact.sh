@@ -85,6 +85,9 @@ done
 
 require_cmd gh
 require_cmd unzip
+require_cmd mv
+require_cmd find
+require_cmd date
 
 echo "Checking GitHub CLI auth..."
 if gh auth status >/dev/null 2>&1; then
@@ -252,13 +255,8 @@ if [[ -z "$BUILD_COMMIT_MESSAGE" ]]; then
   exit 1
 fi
 
-echo "Cleaning old firmware archives in: $OUT_DIR"
-deleted_count="$(find "$OUT_DIR" -type f \( -name '*.uf2' -o -name '*.zip' \) -print -delete | wc -l | tr -d '[:space:]')"
-if [[ "$deleted_count" -gt 0 ]]; then
-  echo "Removed $deleted_count existing file(s) matching *.uf2 or *.zip."
-else
-  echo "No existing *.uf2 or *.zip files found."
-fi
+download_timestamp="$(date -u +%Y%m%dT%H%M%SZ)"
+latest_zip=""
 
 echo "Downloading ${#ARTIFACT_NAMES[@]} artifacts to: $OUT_DIR"
 for name in "${ARTIFACT_NAMES[@]}"; do
@@ -272,12 +270,26 @@ for name in "${ARTIFACT_NAMES[@]}"; do
 
   mapfile -t zip_files < <(find "$target_dir" -type f -name '*.zip')
   if [[ ${#zip_files[@]} -gt 0 ]]; then
-    echo "  Extracting ${#zip_files[@]} zip file(s) in $target_dir"
+    echo "  Renaming and extracting ${#zip_files[@]} zip file(s) in $target_dir"
     for zip_file in "${zip_files[@]}"; do
+      zip_dir="$(dirname "$zip_file")"
+      artifact_safe_name="$(basename "$zip_dir" | tr -cs '[:alnum:]_-' '_')"
+      renamed_zip="$zip_dir/${BUILD_COMMIT_HASH}_${download_timestamp}_${artifact_safe_name}.zip"
+      if [[ "$zip_file" != "$renamed_zip" ]]; then
+        mv -f "$zip_file" "$renamed_zip"
+      fi
+      latest_zip="$renamed_zip"
+      zip_file="$renamed_zip"
       unzip -o -q "$zip_file" -d "$(dirname "$zip_file")"
     done
   fi
 done
+
+if [[ -n "$latest_zip" ]]; then
+  latest_rel="${latest_zip#"$OUT_DIR"/}"
+  ln -sfn "$latest_rel" "$OUT_DIR/latest.zip"
+  echo "Updated latest ZIP pointer: $OUT_DIR/latest.zip -> $latest_rel"
+fi
 
 metadata_file="$OUT_DIR/build-info.txt"
 cat >"$metadata_file" <<EOF
@@ -287,6 +299,7 @@ run_id: $RUN_ID
 build_commit_hash: $BUILD_COMMIT_HASH
 build_commit_message: $BUILD_COMMIT_MESSAGE
 downloaded_at_utc: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+zip_timestamp: $download_timestamp
 EOF
 
 echo "Saved build metadata to: $metadata_file"
