@@ -19,18 +19,18 @@
 
 / {
     behaviors {
-        td_rgui_low_toggle: tap_dance_rgui_low_toggle {
+        td_rshift_rai_toggle: tap_dance_rshift_rai_toggle {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
             tapping-term-ms = <320>;
-            bindings = <&kp RGUI>, <&tog LOW>;
+            bindings = <&kp LGUI>, <&tog LOW>;
         };
 
-        td_lshift_rai_toggle: tap_dance_lshift_rai_toggle {
+        td_lgui_rai_toggle: tap_dance_lgui_rai_toggle {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <320>;
-            bindings = <&kp LSHIFT>, <&tog RAI>;
+            tapping-term-ms = <200>;
+            bindings = <&kp RSHIFT>, <&tog RAI>;
         };
     };
 
@@ -48,7 +48,7 @@
                 &trans &kp Q       &kp W    &kp E    &kp R    &kp T        &kp Y    &kp U    &kp I     &kp O   &kp P          &trans
                 &trans &kp A &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI &trans
                 &trans &kp Z &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &kp FSLH &trans
-                                    &td_rgui_low_toggle &mt LALT TAB &lt LOW RET  &lt RAI SPACE   &mt RCTRL BSPC    &td_lshift_rai_toggle
+                                    &td_rshift_rai_toggle &mt LALT TAB &lt LOW RET  &lt RAI SPACE   &mt RCTRL BSPC    &td_lgui_rai_toggle
             >;
         };
 
