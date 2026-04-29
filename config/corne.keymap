@@ -22,14 +22,14 @@
         td_rshift_rai_toggle: tap_dance_rshift_rai_toggle {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <200>;
+            tapping-term-ms = <150>;
             bindings = <&kp RGUI>, <&tog RAI>;
         };
 
         td_studio_low_toggle: tap_dance_studio_low_toggle {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <200>;
+            tapping-term-ms = <150>;
             bindings = <&kp LSHIFT>, <&tog LOW>;
         };
     };
@@ -65,6 +65,14 @@
                 &trans &kp CAPSLOCK &kp APOS  &kp EQUAL &kp MINUS &kp N0     &trans &trans    &trans    &trans    &trans  &trans
                               &kp LALT   &kp RGUI  &trans    &trans  &trans    &trans
             >;
+        };
+
+        fn_layer {
+            status = "reserved";
+        };
+
+        dota_layer {
+            status = "reserved";
         };
     };
 };
