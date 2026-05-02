@@ -19,6 +19,18 @@
 
 / {
     behaviors {
+        bt_clear: bt_clear {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_CLR>;
+        };
+
+        bt_disconnect: bt_disconnect {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&bt BT_DISC>;
+        };
+
         td_low_space_toggle: tap_dance_low_space_toggle {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
@@ -39,7 +51,7 @@
             flavor = "tap-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <150>;
-            bindings = <&bt BT_CLR>, <&bt BT_DISC>;
+            bindings = <&bt_clear>, <&bt_disconnect>;
         };
 
         lt_low_space_td: lt_low_space_td {
