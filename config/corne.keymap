@@ -37,6 +37,20 @@
             tapping-term-ms = <200>;
             bindings = <&bt_clear>, <&bt_disconnect>;
         };
+
+        low_space_or_to_low: low_space_or_to_low {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <275>;
+            bindings = <&lt LOW SPACE>, <&to LOW>;
+        };
+
+        rai_ret_or_to_rai: rai_ret_or_to_rai {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <275>;
+            bindings = <&lt RAI RET>, <&to RAI>;
+        };
     };
 
     keymap {
@@ -48,7 +62,7 @@
                 &trans &kp Q       &kp W    &kp E    &kp R    &kp T        &kp Y    &kp U    &kp I     &kp O   &kp P          &trans
                 &trans &kp A       &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI       &trans
                 &trans &kp Z       &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &kp FSLH       &trans
-                        &kp LSHIFT &mt LALT TAB &lt LOW SPACE &lt RAI RET &mt RCTRL BSPC &kp RGUI
+                        &kp LSHIFT &mt LALT TAB &low_space_or_to_low &rai_ret_or_to_rai &mt RCTRL BSPC &kp RGUI
             >;
         };
 
