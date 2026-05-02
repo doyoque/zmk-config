@@ -28,7 +28,7 @@
         bt_disconnect: bt_disconnect {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&bt BT_DISC>;
+            bindings = <&bt BT_DISC 0>;
         };
 
         td_low_space_toggle: tap_dance_low_space_toggle {
