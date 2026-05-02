@@ -5,7 +5,7 @@ SHELL := /usr/bin/env bash
 all: down
 
 down:
-	./download_firmware_artifacts.sh
+	./artifact.sh
 
 download: down
 
