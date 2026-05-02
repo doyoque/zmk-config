@@ -19,28 +19,45 @@
 
 / {
     behaviors {
-        bt_clear_current: bt_clear_current {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            wait-ms = <20>;
-            tap-ms = <20>;
-            bindings = <
-                &bt BT_CLR
-            >;
-        };
-
-        td_rshift_rai_toggle: tap_dance_rshift_rai_toggle {
+        td_low_space_toggle: tap_dance_low_space_toggle {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <150>;
-            bindings = <&kp RGUI>, <&tog RAI>;
+            tapping-term-ms = <180>;
+            bindings = <&kp SPACE>, <&tog LOW>;
         };
 
-        td_studio_low_toggle: tap_dance_studio_low_toggle {
+        td_rai_ret_toggle: tap_dance_rai_ret_toggle {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <150>;
-            bindings = <&kp LSHIFT>, <&tog LOW>;
+            tapping-term-ms = <180>;
+            bindings = <&kp RET>, <&tog RAI>;
+        };
+
+        bt_disc_or_clear: bt_disc_or_clear {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <0>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            quick-tap-ms = <150>;
+            bindings = <&bt BT_CLR>, <&bt BT_DISC>;
+        };
+
+        lt_low_space_td: lt_low_space_td {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <0>;
+            flavor = "balanced";
+            tapping-term-ms = <180>;
+            quick-tap-ms = <150>;
+            bindings = <&mo LOW>, <&td_low_space_toggle>;
+        };
+
+        lt_rai_ret_td: lt_rai_ret_td {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <0>;
+            flavor = "balanced";
+            tapping-term-ms = <180>;
+            quick-tap-ms = <150>;
+            bindings = <&mo RAI>, <&td_rai_ret_toggle>;
         };
     };
 
@@ -51,16 +68,16 @@
             display-name = "BAS";
             bindings = <
                 &trans &kp Q       &kp W    &kp E    &kp R    &kp T        &kp Y    &kp U    &kp I     &kp O   &kp P          &trans
-                &trans &kp A &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI &trans
-                &trans &kp Z &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &kp FSLH &trans
-                      &kp LSHIFT &mt LALT TAB &lt LOW SPACE  &lt RAI RET   &mt RCTRL BSPC    &kp RGUI
+                &trans &kp A       &kp S    &kp D    &kp F    &kp G        &kp H    &kp J    &kp K     &kp L   &kp SEMI       &trans
+                &trans &kp Z       &kp X    &kp C    &kp V    &kp B        &kp N    &kp M    &kp COMMA &kp DOT &kp FSLH       &trans
+                        &kp LSHIFT &mt LALT TAB &lt_low_space_td &lt_rai_ret_td &mt RCTRL BSPC &kp RGUI
             >;
         };
 
         lower_layer {
             display-name = "LOW";
             bindings = <
-                &trans &bt_clear_current   &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3      &kp BSLH &kp LBKT &kp RBKT &trans    &kp N0  &trans
+                &trans &bt_disc_or_clear   &bt BT_SEL 0   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3      &kp BSLH &kp LBKT &kp RBKT &trans    &kp N0  &trans
                 &trans &rgb_ug RGB_TOG &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_BRI &trans         &kp LEFT &kp DOWN       &kp UP          &kp RIGHT &trans  &trans
                 &trans &rgb_ug RGB_EFF &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_BRD &trans         &studio_unlock   &trans         &trans          &trans    &trans  &trans
                                      &trans          &kp LSHIFT           &kp LCTRL         &kp RCTRL           &kp RSHIFT &kp RALT
