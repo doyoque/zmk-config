@@ -41,14 +41,14 @@
         low_space_or_to_low: low_space_or_to_low {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <275>;
+            tapping-term-ms = <150>;
             bindings = <&lt LOW SPACE>, <&tog LOW>;
         };
 
         rai_ret_or_to_rai: rai_ret_or_to_rai {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
-            tapping-term-ms = <275>;
+            tapping-term-ms = <150>;
             bindings = <&lt RAI RET>, <&tog RAI>;
         };
     };
